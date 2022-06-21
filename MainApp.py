@@ -5,7 +5,7 @@ import User
 
 import json
 
-app = Flask(__name__)
+app = Flask("python_server_for_alamofire")
 
 bank = UserBank.random_bank(capacity=100)
 
@@ -15,7 +15,6 @@ def get_user(id: int):
     try:
         resp = Flask.make_response(app, json.dumps(bank.get(int(id)).__dict__))
         resp.headers.set("Content-Type", "json")
-        print(resp.headers)
         return resp
     except User.NoSuchUserException:
         return "no such user"
@@ -23,7 +22,7 @@ def get_user(id: int):
 
 @app.get("/get_all_users")
 def get_all_users():
-    users =list(map(lambda x: x.__dict__, bank.get_all()))
+    users = list(map(lambda x: x.__dict__, bank.get_all()))
     return json.dumps(users)
 
 
@@ -31,7 +30,6 @@ def get_all_users():
 def change_user_name(id: int):
     new_name = request.args.get("new_name")
     try:
-        print(id, new_name)
         bank.change_name(int(id), new_name)
         return get_user(id)
     except User.NoSuchUserException:

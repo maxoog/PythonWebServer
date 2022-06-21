@@ -9,8 +9,3 @@ def count_calls(func):
 
     decorator.calls = 0
     return decorator
-
-
-
-
-
